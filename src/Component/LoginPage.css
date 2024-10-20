@@ -1,0 +1,60 @@
+.outer-main-container{
+    background-color: #f7e2d7;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inner-main-container{
+    display: flex;
+    width: 1200px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.322);
+}
+.sign-in-container{
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.sign-in-container h1{
+    font-size: 45px;
+    font-family: Montserrat;
+    color: #a63103;
+    
+}
+.image-logo-container{
+    flex: 0.5;
+    padding: 20px;
+}
+.sign-in-inner{
+    width: 80%;
+}
+
+.sign-in-inner div form{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+.username{
+    border: 1px solid #a333035d !important;
+}
+.password{
+    border: 1px solid rgba(0, 0, 0, 0.082) !important;
+}
+@media screen and (max-width: 767px) {
+    .inner-main-container{
+        flex-direction: column;
+    }
+    .outer-main-container{
+        padding: 20px;
+    }
+    .sign-in-container{
+        padding-bottom: 30px;
+    }
+    .sign-in-container h1{
+        font-size: 30px;
+    }
+}
