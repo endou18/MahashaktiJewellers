@@ -30,7 +30,7 @@ const LoginPage = (props) => {
     setError(null);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/login', { username, password });
+      const res = await axios.post('https://mahashaktibackend.onrender.com/api/login', { username, password });
 
       if (res.status === 200) {
         const userD = res.data;

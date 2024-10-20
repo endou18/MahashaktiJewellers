@@ -68,7 +68,7 @@ const TodaysStock = (props) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/stocks");
+      const response = await fetch("https://mahashaktibackend.onrender.com/api/stocks");
       const stocksData = await response.json();
       console.log(stocksData);
       
@@ -107,7 +107,7 @@ const TodaysStock = (props) => {
       }
 
       // Step 4: Update the stock in the database (using PATCH or PUT)
-      await axios.put(`http://localhost:5000/api/stocks/${matchingStock._id}`, {
+      await axios.put(`https://mahashaktibackend.onrender.com/api/stocks/${matchingStock._id}`, {
         weight: updatedWeight,
         pieces: updatedPieces, // Update both weight and pieces
       });
@@ -117,7 +117,7 @@ const TodaysStock = (props) => {
 
       // Then, delete the item from "Today's Stock" if the history is stored successfully
       await axios.delete(
-        `http://localhost:5000/api/todays-stock/${deleteItemId}`
+        `https://mahashaktibackend.onrender.com/api/todays-stock/${deleteItemId}`
       );
 
       toast({
@@ -150,7 +150,7 @@ const TodaysStock = (props) => {
   const fetchStockData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/todays-stock"
+        "https://mahashaktibackend.onrender.com/api/todays-stock"
       );
       setStockList(response.data);
       setFilteredStockList(response.data); // Set initial filtered data
@@ -186,7 +186,7 @@ const TodaysStock = (props) => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/todays-stock", newStock);
+      await axios.post("https://mahashaktibackend.onrender.com/api/todays-stock", newStock);
       toast({
         title: "Success",
         description: "Stock added successfully.",
@@ -231,7 +231,7 @@ const TodaysStock = (props) => {
     try {
       // Using a relative URL path for axios
       await axios.post(
-        "http://localhost:5000/api/alltodayshistory",
+        "https://mahashaktibackend.onrender.com/api/alltodayshistory",
         historyItem
       );
       console.log("Stock item stored in AllTodaysHistory successfully.");
@@ -285,7 +285,7 @@ const TodaysStock = (props) => {
 
       // Then, delete the item from "Today's Stock" if the history is stored successfully
       await axios.delete(
-        `http://localhost:5000/api/todays-stock/${deleteItemId}`
+        `https://mahashaktibackend.onrender.com/api/todays-stock/${deleteItemId}`
       );
 
       toast({

@@ -35,7 +35,7 @@ const AddStock = (props) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/add-stock', {
+      const response = await axios.post('https://mahashaktibackend.onrender.com/api/add-stock', {
         ...formData,
         date: new Date().toLocaleString(),
         author: props.userData.name,

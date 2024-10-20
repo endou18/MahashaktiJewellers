@@ -30,7 +30,7 @@ const ViewStock = (props) => {
     const fetchStocks = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/api/stocks');
+        const response = await fetch('https://mahashaktibackend.onrender.com/api/stocks');
         const data = await response.json();
         setStocks(data);
         setFilteredStocks(data);
@@ -127,7 +127,7 @@ const ViewStock = (props) => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/api/stocks/${editData._id}`, {
+      const response = await fetch(`https://mahashaktibackend.onrender.com/api/stocks/${editData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ const ViewStock = (props) => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this stock?")) {
       try {
-        const response = await fetch(`http://localhost:5000/api/stocks/${id}`, {
+        const response = await fetch(`https://mahashaktibackend.onrender.com/api/stocks/${id}`, {
           method: 'DELETE'
         });
 

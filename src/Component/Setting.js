@@ -69,7 +69,7 @@ const Setting = (props) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/user-details`,
+        `https://mahashaktibackend.onrender.com/api/user-details`,
         {
           params: { username: originalUsername },
         }
@@ -93,7 +93,7 @@ const Setting = (props) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put("http://localhost:5000/api/login", {
+      const response = await axios.put("https://mahashaktibackend.onrender.com/api/login", {
         originalUsername,
         name,
         username,

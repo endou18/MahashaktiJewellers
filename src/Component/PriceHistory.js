@@ -22,7 +22,7 @@ const PriceHistory = () => {
   // Fetch price history from the backend
   const fetchPriceHistory = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/price-history');
+      const response = await fetch('https://mahashaktibackend.onrender.com/api/price-history');
       const data = await response.json();
 
       // Sort data by updated_at field in descending order (newest first)

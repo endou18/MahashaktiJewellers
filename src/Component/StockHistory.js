@@ -42,7 +42,7 @@ const TodaysStock = (props) => {
   const fetchAllTodaysHistoryData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/alltodayshistory"
+        "https://mahashaktibackend.onrender.com/api/alltodayshistory"
       );
       setAllTodaysHistory(response.data);
       setFilteredStockList(response.data); // Set full data to filtered list initially
