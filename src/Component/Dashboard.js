@@ -52,7 +52,7 @@ const Dashboard = (props) => {
   const fetchPrices = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/prices');
+      const response = await fetch('https://mahashaktibackend.onrender.com/api/prices');
       const data = await response.json();
       setGoldPrice(data.gold_price);
       setSilverPrice(data.silver_price);
@@ -66,7 +66,7 @@ const Dashboard = (props) => {
   // Update gold price
   const updateGoldPrice = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/prices/gold', {
+      const response = await fetch('https://mahashaktibackend.onrender.com/api/prices/gold', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ gold_price: newGoldPrice || goldPrice }),
@@ -94,7 +94,7 @@ const Dashboard = (props) => {
   // Update silver price
   const updateSilverPrice = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/prices/silver', {
+      const response = await fetch('https://mahashaktibackend.onrender.com/api/prices/silver', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ silver_price: newSilverPrice || silverPrice }),
