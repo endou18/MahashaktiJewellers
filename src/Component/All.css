@@ -1,7 +1,9 @@
 select option{
     background-color: black !important;
 }
-
+.css-10ygog {
+  width: 20vw !important;
+}
 .custom-loader {
     border: 8px solid rgba(255, 255, 255, 0.3); /* Light border */
     border-left-color: #0bc5ea; /* Cyan border */

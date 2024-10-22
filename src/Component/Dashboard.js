@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Heading, Flex, Spinner, Button, Input, useToast, Grid } from '@chakra-ui/react';
+import { Box, Heading, Flex, Spinner, Button, Input, useToast, Grid, useBreakpointValue } from '@chakra-ui/react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import "./All.css";
 
 const MotionHeading = motion(Heading);
-
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 // 3D Gold Coin Component with Glow Effect
 const GoldCoin = () => {
   const mesh = useRef();
   useFrame(() => (mesh.current.rotation.y += 0.01)); // Rotate the coin
 
   return (
-    <mesh ref={mesh} scale={3}> {/* Increase the size */}
+    <mesh ref={mesh} scale={3}>
       <cylinderGeometry args={[1, 1, 0.2, 32]} />
       <meshStandardMaterial color="gold" emissive="yellow" emissiveIntensity={0.5} /> {/* Add emissive property for glow */}
     </mesh>
@@ -26,7 +28,7 @@ const SilverGem = () => {
   useFrame(() => (mesh.current.rotation.y += 0.01)); // Rotate the gem
 
   return (
-    <mesh ref={mesh} scale={3}> {/* Increase the size */}
+    <mesh ref={mesh} scale={3}>
       <octahedronGeometry args={[1, 0]} />
       <meshStandardMaterial color="silver" emissive="white" emissiveIntensity={0.3} /> {/* Add emissive property for glow */}
     </mesh>
@@ -43,11 +45,14 @@ const Dashboard = (props) => {
   const [newSilverPrice, setNewSilverPrice] = useState('');
   const toast = useToast();
 
+  // Responsive sizes for Canvas
+  const canvasSize = useBreakpointValue({ base: 200, md: 250, lg: 300 });
+
   // Fetch the prices from the backend
   const fetchPrices = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://mahashaktibackend.onrender.com/api/prices');
+      const response = await fetch('http://localhost:5000/api/prices');
       const data = await response.json();
       setGoldPrice(data.gold_price);
       setSilverPrice(data.silver_price);
@@ -61,7 +66,7 @@ const Dashboard = (props) => {
   // Update gold price
   const updateGoldPrice = async () => {
     try {
-      const response = await fetch('https://mahashaktibackend.onrender.com/api/prices/gold', {
+      const response = await fetch('http://localhost:5000/api/prices/gold', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ gold_price: newGoldPrice || goldPrice }),
@@ -85,13 +90,11 @@ const Dashboard = (props) => {
       });
     }
   };
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  }
+
   // Update silver price
   const updateSilverPrice = async () => {
     try {
-      const response = await fetch('https://mahashaktibackend.onrender.com/api/prices/silver', {
+      const response = await fetch('http://localhost:5000/api/prices/silver', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ silver_price: newSilverPrice || silverPrice }),
@@ -138,11 +141,12 @@ const Dashboard = (props) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
         whileHover={{ textShadow: '0px 0px 8px rgba(255, 255, 255, 0.8)' }}
+        fontSize={{ base: '2xl', md: '3xl', lg: '4xl' }} // Responsive font sizes
       >
         Welcome, {props.data?.name ? capitalizeFirstLetter(props.data.name) : ''} ✨!!!
       </MotionHeading>
 
-      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6}>
         <Flex
           color="white"
           bg="gray.700"
@@ -151,15 +155,15 @@ const Dashboard = (props) => {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          boxShadow="0 0 20px rgba(255, 215, 0, 0.5)" // Glowing effect for gold box
+          boxShadow="0 0 20px rgba(255, 215, 0, 0.5)"
         >
-          <Canvas style={{ height: 250, width: 250 }}>
+          <Canvas style={{ height: canvasSize, width: canvasSize }}>
             <ambientLight intensity={0.5} />
             <directionalLight position={[5, 5, 5]} />
             <GoldCoin />
             <OrbitControls />
           </Canvas>
-          <Heading size="xl" mt={4}>
+          <Heading size="xl" mt={4} fontSize={{ base: 'lg', md: '2xl', lg: '3xl' }}>
             Gold Price: ₹{goldPrice}
           </Heading>
           {editGoldMode ? (
@@ -194,15 +198,15 @@ const Dashboard = (props) => {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          boxShadow="0 0 20px rgba(192, 192, 192, 0.5)" // Glowing effect for silver box
+          boxShadow="0 0 20px rgba(192, 192, 192, 0.5)"
         >
-          <Canvas style={{ height: 250, width: 250 }}>
+          <Canvas style={{ height: canvasSize, width: canvasSize }}>
             <ambientLight intensity={0.5} />
             <directionalLight position={[5, 5, 5]} />
             <SilverGem />
             <OrbitControls />
           </Canvas>
-          <Heading size="xl" mt={4}>
+          <Heading size="xl" mt={4} fontSize={{ base: 'lg', md: '2xl', lg: '3xl' }}>
             Silver Price: ₹{silverPrice}
           </Heading>
           {editSilverMode ? (

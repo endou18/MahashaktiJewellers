@@ -201,7 +201,7 @@ const ViewStock = (props) => {
 
   return (
     <Flex height="100vh" bg="gray.900">
-      <Sidebar onLogout={handleLogout} />
+      <Sidebar  onLogout={handleLogout} />
 
       <Box flex="1" p={10} color="white">
         <Heading mb={6} size="lg" color="whiteAlpha.900" textAlign="center">
