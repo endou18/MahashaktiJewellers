@@ -1,0 +1,60 @@
+/* TodaysStock.module.css */
+
+.tableContainer {
+    overflow-y: auto;
+    max-height: 400px; /* Adjust the max height as needed */
+    border: 1px solid #444;
+    border-radius: 8px;
+  }
+  
+  .tableHeader {
+    background-color: #2d3748; /* Chakra UI "gray.800" */
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .tableRow:hover {
+    background-color: #1a202c; /* Chakra UI "gray.900" */
+    cursor: pointer;
+  }
+  
+  .highlightedButton {
+    background-color: #ffd700; /* Gold */
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .dateBox {
+    background-color: #276749; /* Chakra UI "green.700" */
+    color: #fff;
+    padding: 6px 12px;
+    text-align: center;
+    border-radius: 4px;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 8px;
+  }
+  @media screen and (max-width: 767px) {
+    .css-18evhkd{
+      margin-left: 0px !important;
+      margin-top: 10px !important;
+    }
+    .css-u0w1uk{
+      display: flex;
+      flex-direction: column;
+    }
+    .css-13dcpzy{
+      width: 100%;
+    }
+    .css-15gb0pu{
+      height: auto !important;
+    }
+    .css-1cahoep{
+      flex-direction: column !important;
+    }
+    .css-betff9{
+      width: 100%;
+    }
+  }

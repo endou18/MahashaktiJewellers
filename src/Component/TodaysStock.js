@@ -23,13 +23,15 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { CloseIcon, CheckIcon } from "@chakra-ui/icons";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import "./TodaysStock.css"
 const TodaysStock = (props) => {
+  const [step, setStep] = useState(1);
   const [itemName, setItemName] = useState("");
   const [productGivenTo, setProductGivenTo] = useState("");
   const [weight, setWeight] = useState("");
@@ -49,6 +51,12 @@ const TodaysStock = (props) => {
   const cancelRef = useRef(); // For AlertDialog's cancel button
   const toast = useToast();
   const navigate = useNavigate();
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const handleNext = () => {
+    if (step < 6) {
+      setStep((prev) => prev + 1);
+    }
+  };
   const handleMarkAsSelled = async (deleteItemId) => {
     const stockItemToDelete = stockList.find(
       (item) => item._id === deleteItemId
@@ -68,7 +76,7 @@ const TodaysStock = (props) => {
     }
 
     try {
-      const response = await fetch("https://mahashaktibackend.onrender.com/api/stocks");
+      const response = await fetch("http://localhost:5000/api/stocks");
       const stocksData = await response.json();
       console.log(stocksData);
       
@@ -107,7 +115,7 @@ const TodaysStock = (props) => {
       }
 
       // Step 4: Update the stock in the database (using PATCH or PUT)
-      await axios.put(`https://mahashaktibackend.onrender.com/api/stocks/${matchingStock._id}`, {
+      await axios.put(`http://localhost:5000/api/stocks/${matchingStock._id}`, {
         weight: updatedWeight,
         pieces: updatedPieces, // Update both weight and pieces
       });
@@ -117,7 +125,7 @@ const TodaysStock = (props) => {
 
       // Then, delete the item from "Today's Stock" if the history is stored successfully
       await axios.delete(
-        `https://mahashaktibackend.onrender.com/api/todays-stock/${deleteItemId}`
+        `http://localhost:5000/api/todays-stock/${deleteItemId}`
       );
 
       toast({
@@ -150,7 +158,7 @@ const TodaysStock = (props) => {
   const fetchStockData = async () => {
     try {
       const response = await axios.get(
-        "https://mahashaktibackend.onrender.com/api/todays-stock"
+        "http://localhost:5000/api/todays-stock"
       );
       setStockList(response.data);
       setFilteredStockList(response.data); // Set initial filtered data
@@ -186,7 +194,7 @@ const TodaysStock = (props) => {
     };
 
     try {
-      await axios.post("https://mahashaktibackend.onrender.com/api/todays-stock", newStock);
+      await axios.post("http://localhost:5000/api/todays-stock", newStock);
       toast({
         title: "Success",
         description: "Stock added successfully.",
@@ -231,7 +239,7 @@ const TodaysStock = (props) => {
     try {
       // Using a relative URL path for axios
       await axios.post(
-        "https://mahashaktibackend.onrender.com/api/alltodayshistory",
+        "http://localhost:5000/api/alltodayshistory",
         historyItem
       );
       console.log("Stock item stored in AllTodaysHistory successfully.");
@@ -285,7 +293,7 @@ const TodaysStock = (props) => {
 
       // Then, delete the item from "Today's Stock" if the history is stored successfully
       await axios.delete(
-        `https://mahashaktibackend.onrender.com/api/todays-stock/${deleteItemId}`
+        `http://localhost:5000/api/todays-stock/${deleteItemId}`
       );
 
       toast({
@@ -396,8 +404,10 @@ const TodaysStock = (props) => {
 
         <Box mb={6} p={6} bg="gray.800" borderRadius="md" shadow="md">
           {/* Flex container for input fields */}
-          <Flex direction="row" gap={4} alignItems="center">
-            <FormControl isRequired width="20%">
+          {isMobile && (
+        <Flex direction="column" gap={4} alignItems="center">
+          {step === 1 && (
+            <FormControl isRequired width="80%">
               <FormLabel>Item Name</FormLabel>
               <Input
                 placeholder="Enter item name"
@@ -406,9 +416,14 @@ const TodaysStock = (props) => {
                 bg="gray.700"
                 color="white"
               />
+              <Button colorScheme="blue" onClick={handleNext} mt={4}>
+                Next
+              </Button>
             </FormControl>
+          )}
 
-            <FormControl isRequired width="20%">
+          {step === 2 && (
+            <FormControl isRequired width="80%">
               <FormLabel>Product Given To</FormLabel>
               <Input
                 placeholder="Enter product given to"
@@ -417,9 +432,14 @@ const TodaysStock = (props) => {
                 bg="gray.700"
                 color="white"
               />
+              <Button colorScheme="blue" onClick={handleNext} mt={4}>
+                Next
+              </Button>
             </FormControl>
+          )}
 
-            <FormControl isRequired width="15%">
+          {step === 3 && (
+            <FormControl isRequired width="80%">
               <FormLabel>Weight</FormLabel>
               <Input
                 type="number"
@@ -429,9 +449,14 @@ const TodaysStock = (props) => {
                 bg="gray.700"
                 color="white"
               />
+              <Button colorScheme="blue" onClick={handleNext} mt={4}>
+                Next
+              </Button>
             </FormControl>
+          )}
 
-            <FormControl width="15%">
+          {step === 4 && (
+            <FormControl width="80%">
               <FormLabel>Pieces</FormLabel>
               <Input
                 type="number"
@@ -441,9 +466,14 @@ const TodaysStock = (props) => {
                 bg="gray.700"
                 color="white"
               />
+              <Button colorScheme="blue" onClick={handleNext} mt={4}>
+                Next
+              </Button>
             </FormControl>
+          )}
 
-            <FormControl width="15%">
+          {step === 5 && (
+            <FormControl width="80%">
               <FormLabel>Type of Ornaments</FormLabel>
               <Select
                 value={ornamentType}
@@ -454,12 +484,86 @@ const TodaysStock = (props) => {
                 <option value="Gold">Gold</option>
                 <option value="Silver">Silver</option>
               </Select>
+              <Button colorScheme="blue" onClick={handleNext} mt={4}>
+                Next
+              </Button>
             </FormControl>
+          )}
 
+          {step === 6 && (
             <Button colorScheme="blue" onClick={handleSubmit} mt={8}>
               Submit
             </Button>
-          </Flex>
+          )}
+        </Flex>
+      )}
+
+      {!isMobile && (
+        <Flex direction="row" gap={4} alignItems="center">
+          <FormControl isRequired width="20%">
+            <FormLabel>Item Name</FormLabel>
+            <Input
+              placeholder="Enter item name"
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+              bg="gray.700"
+              color="white"
+            />
+          </FormControl>
+
+          <FormControl isRequired width="20%">
+            <FormLabel>Product Given To</FormLabel>
+            <Input
+              placeholder="Enter product given to"
+              value={productGivenTo}
+              onChange={(e) => setProductGivenTo(e.target.value)}
+              bg="gray.700"
+              color="white"
+            />
+          </FormControl>
+
+          <FormControl isRequired width="15%">
+            <FormLabel>Weight</FormLabel>
+            <Input
+              type="number"
+              placeholder="Enter weight"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              bg="gray.700"
+              color="white"
+            />
+          </FormControl>
+
+          <FormControl width="15%">
+            <FormLabel>Pieces</FormLabel>
+            <Input
+              type="number"
+              placeholder="Enter number of pieces"
+              value={pieces}
+              onChange={(e) => setPieces(e.target.value)}
+              bg="gray.700"
+              color="white"
+            />
+          </FormControl>
+
+          <FormControl width="15%">
+            <FormLabel>Type of Ornaments</FormLabel>
+            <Select
+              value={ornamentType}
+              onChange={(e) => setOrnamentType(e.target.value)}
+              bg="gray.700"
+              color="white"
+            >
+              <option value="Gold">Gold</option>
+              <option value="Silver">Silver</option>
+            </Select>
+          </FormControl>
+
+          <Button colorScheme="blue" onClick={handleSubmit} mt={8}>
+            Submit
+          </Button>
+        </Flex>
+      )}
         </Box>
 
         {/* Search input for both fields */}
@@ -515,8 +619,9 @@ const TodaysStock = (props) => {
           </Button>
         </Flex>
 
+        <Box className="tableContainer">
         <Table variant="simple" colorScheme="whiteAlpha">
-          <Thead>
+          <Thead className="tableHeader">
             <Tr>
               <Th color="white">#</Th>
               <Th color="white">Product Given To</Th>
@@ -532,7 +637,7 @@ const TodaysStock = (props) => {
           <Tbody>
             {filteredStockList.length > 0 ? (
               filteredStockList.map((stock, index) => (
-                <Tr key={index}>
+                <Tr key={index} className="tableRow`">
                   <Td>{index + 1}</Td>
                   <Td>{capitalizeFirstLetter(stock.productGivenTo)}</Td>
                   <Td>{stock.itemName}</Td>
@@ -613,6 +718,7 @@ const TodaysStock = (props) => {
             )}
           </Tbody>
         </Table>
+        </Box>
       </Box>
       <AlertDialog
         isOpen={isStatusDialogOpen}
