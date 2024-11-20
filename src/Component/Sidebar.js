@@ -119,11 +119,24 @@ const Sidebar = ({ onLogout }) => {
       {isMobile ? (
         // Drawer for mobile view
         <>
-          <Button onClick={toggleDrawer} bg="gray.800" color="white" p={4} m={2}>
+          <Button
+            onClick={toggleDrawer}
+            position="fixed"
+            top="20px"
+            right="20px"
+            bg="transparent"
+            color="white"
+            borderRadius="full"
+            boxSize="50px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            _hover={{ bg: "gray.700" }}
+          >
             <Icon as={FaBars} boxSize={6} />
           </Button>
 
-          <Drawer isOpen={isDrawerOpen} placement="left" onClose={toggleDrawer}>
+          <Drawer  isOpen={isDrawerOpen} placement="left" onClose={toggleDrawer}>
             <DrawerOverlay />
             <DrawerContent bg="gray.900">
               <DrawerCloseButton color="white" />
